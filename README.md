@@ -18,12 +18,15 @@ Pick the next Roso Games project democratically using ranked-choice voting.
 - Detects ties automatically
 
 ## CSV Format
+Required: First column = Timestamp, Second column = Name (Nimesi), Remaining columns = Game ideas
 
 ```csv
-Timestamp,[Game Idea #1],[Game Idea #2],[Game Idea #3]
-16.11.2025 10:00,1,2,3
-16.11.2025 10:05,2,1,3
+Timestamp,Nimesi,[Game Idea #1],[Game Idea #2],[Game Idea #3]
+16.11.2025 10:00,Matti,1,2,3
+16.11.2025 10:05,Liisa,2,1,3
 ```
+The name field helps verify each person votes only once. This check needs to be performed manually over at Google Sheets. Both timestamp and name columns are automatically ignored during vote counting.
+
 
 ## Features
 

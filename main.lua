@@ -6,6 +6,7 @@ local csvFile = "votes.csv"
 
 -- Run tests:
 -- local csvFile = "testFiles/test1.csv"
+-- local skipAnimation = true
 
 ----------------------------------------------------------------------
 
@@ -255,6 +256,12 @@ local function animateCounting(winner, percentage, votes, isTie)
 		end
 	end
 
+	if skipAnimation then
+		countingText:removeSelf()
+		showResults(winner, percentage, votes, isTie)
+		return
+	end
+
 	timer.performWithDelay(333, updateDots, maxAnimations + 1)
 end
 
@@ -283,8 +290,8 @@ local function main( filename )
 	local headerFields = splitCSV(lines[1])
 	local candidates = {}
 
-	-- Skip first column (timestamp), extract candidate names
-	for i = 2, #headerFields do
+	-- Skip first TWO columns (timestamp and name), extract candidate/game names
+	for i = 3, #headerFields do
 		local candidateName = extractGameName(headerFields[i])
 		table.insert(candidates, candidateName)
 	end
@@ -294,14 +301,14 @@ local function main( filename )
 		print(i .. ". " .. name)
 	end
 
-	-- Parse ballots
+	-- Parse ballots (ignore header row)
 	local ballots = {}
 	for i = 2, #lines do
 		local fields = splitCSV(lines[i])
 		local ballot = {}
 
-		-- Skip first column (timestamp), extract rankings
-		for j = 2, #fields do
+		-- Skip first TWO columns (timestamp and name), extract rankings
+		for j = 3, #fields do
 			local choice = fields[j]
 			-- Extract number from format like "#1" or "1"
 			local rank = tonumber(choice:match("%d+"))
